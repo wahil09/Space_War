@@ -9,8 +9,7 @@ player = model.player
 fires = model.all_fire
 
 # Créer et afficher les enemie lvl-01
-for i in range(4):
-    model.creer_enemei()
+
 
 WIDTH, HEIGHT = 1024, 1024
 rndm = random.randint(1, 7)
@@ -24,15 +23,29 @@ FPS = 60
 delta = 0
 time_passer = time.time()
 
+
+
+start_time = time.time()
+delay_cree_enemie = 1
+
+delay_cree_fire = 0.5
 def main():
-    global time_passer
+    global time_passer, delay_cree_enemie, delay_cree_fire
     is_start = True
 
     while is_start:
-        print(player.get_size())
         # Calcul delta time
         time_actuel = time.time()
         delta = time_actuel - time_passer
+        print(time_actuel, time_passer, delta)
+
+        # time pour creer un enemie
+        diference_time_actuel_passer = time_actuel - start_time
+
+        if diference_time_actuel_passer > delay_cree_enemie:
+            model.creer_enemei()
+            delay_cree_enemie = diference_time_actuel_passer + 1.5
+
         time_passer = time_actuel
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -41,8 +54,6 @@ def main():
             # Touche Keyboard
             if event.type == pygame.KEYDOWN:
                 model.pressed[event.key] = True
-                if model.pressed.get(pygame.K_SPACE):
-                    model.creer_fire()
 
             if event.type == pygame.KEYUP:
                 model.pressed[event.key] = False
@@ -66,6 +77,10 @@ def main():
                 model.sup_fire()
             print(fire.get_position())
 
+        if model.pressed.get(pygame.K_SPACE):
+            if diference_time_actuel_passer > delay_cree_fire:
+                model.creer_fire()
+                delay_cree_fire = diference_time_actuel_passer + 0.5
 
         # pygame.draw.rect(win, "#ffffff", (player.get_position(), player.get_size())) mettre une couleur blanche sur le player
 

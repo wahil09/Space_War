@@ -74,6 +74,7 @@ class Person:
 
     def move_left(self, btn_clicked, delta):
         if btn_clicked:
+
             self.rect.x -= self.__velocity * delta
 
     def move_right(self, btn_clicked, delta):
