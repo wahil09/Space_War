@@ -1,14 +1,18 @@
+import time
+
 import pygame
 from fire import Fire
 
-class Person:
+class Person(pygame.sprite.Sprite):
     gravity = -9.8
     number_of_person = 0
 
     def __init__(self, name, age, health, damage, velocity, position, image, size_img):
+        super().__init__()
         self.__name = name
         self.__age = age
         self.__health = health
+        self.__max_health = self.__health
         self.__damage = damage
         self.__velocity = velocity
         self.__jumb = 10
@@ -18,6 +22,8 @@ class Person:
         self.delta = 1
 
         self.premier_position = 0
+
+        self.time_passe = time.time()
 
 
         Person.number_of_person += 1
@@ -42,11 +48,19 @@ class Person:
         return self.__velocity
 
     def get_position(self):
-        print("Player_X", self.rect.x, "Player_Y", self.rect.y)
         return self.rect.x, self.rect.y
 
     def get_size(self):
         return self.image.get_size()
+
+    def get_max_health(self):
+        return self.__max_health
+
+    def get_attack(self, enemie):
+        self.__health -= enemie.get_damage()
+
+    def get_damage_arm(self, arm):
+        self.__damage = arm.get_damage()
 
 
     # ***** -- Setters Functions -- ***** #
@@ -117,5 +131,18 @@ class Person:
         self.image = pygame.image.load(image)
         self.image = pygame.transform.scale(self.image, new_size)
         return self.image
+
+
+    # bar Health
+    def draw_health_bar(self, surface):
+        bg_color = (111, 210, 46)
+        back_color = (000, 000, 000)
+        position = [self.rect.x+4, self.rect.y-12, self.__health, 5]
+        back_position = [self.rect.x + 4, self.rect.y -12, self.__max_health, 5]
+        pygame.draw.rect(surface, back_color, back_position)
+        pygame.draw.rect(surface, bg_color, position)
+
+    def delay(self):
+        pass
 
 

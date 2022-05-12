@@ -8,102 +8,98 @@ player = model.player
 
 fires = model.all_fire
 
-# Créer et afficher les enemie lvl-01
+class Window:
+    def __init__(self):
+        self.width, self.height = 1024, 1024 #
+        self.random_bg = random.randint(1, 7) # choisir un numero aléatoire pour le background de jeux
+        self.bg = pygame.image.load(f'public/images/Background/Starfields/Starfield-{self.random_bg}.png')
+        self.title = pygame.display.set_caption('Space_War-war')
+        self.win = pygame.display.set_mode((self.width, self.height))
+        self.delta = 0
+        self.clock = pygame.time.Clock()
+        self.FPS = 60
+        self.time_passe = time.time()
+        self.time_passe_2 = time.time()
+        self.delta_2 = 0
+        self.enemie_par_second = 1.5 # seconde
+        self.fire_par_second = 0.3 # seconde
+
+        self.jeu_active = True
 
 
-WIDTH, HEIGHT = 1024, 1024
-rndm = random.randint(1, 7)
-bg = pygame.image.load(f'public/images/Background/Starfields/Starfield-{rndm}.png')
+    def draw(self):
 
-win = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption('Space_War-war')
-clock = pygame.time.Clock()
-FPS = 60
+        while self.jeu_active:
+            print(player.get_number_of_kill())
+            # Calcul delta time
+            time_actuel = time.time()
+            self.delta = time_actuel - self.time_passe
+            self.time_passe = time_actuel
 
-delta = 0
-time_passer = time.time()
+            # time pour creer un enemie
+            self.delta_2 = time_actuel - self.time_passe_2
 
-
-
-start_time = time.time()
-delay_cree_enemie = 1
-
-delay_cree_fire = 0.5
-def main():
-    global time_passer, delay_cree_enemie, delay_cree_fire
-    is_start = True
-
-    while is_start:
-        # Calcul delta time
-        time_actuel = time.time()
-        delta = time_actuel - time_passer
-        print(time_actuel, time_passer, delta)
-
-        # time pour creer un enemie
-        diference_time_actuel_passer = time_actuel - start_time
-
-        if diference_time_actuel_passer > delay_cree_enemie:
-            model.creer_enemei()
-            delay_cree_enemie = diference_time_actuel_passer + 1.5
-
-        time_passer = time_actuel
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                is_start = False
-
-            # Touche Keyboard
-            if event.type == pygame.KEYDOWN:
-                model.pressed[event.key] = True
-
-            if event.type == pygame.KEYUP:
-                model.pressed[event.key] = False
-
-        # Movement player
-        player.move_left(model.pressed.get(pygame.K_LEFT), delta)
-        player.move_right(model.pressed.get(pygame.K_RIGHT), delta)
-        player.move_up(model.pressed.get(pygame.K_UP), delta)
-        player.move_down(model.pressed.get(pygame.K_DOWN), delta)
-
-        # Dessiner le window
-        win.blit(bg, (0, 0))
-
-        # Afficher le joueur
-        player.draw(win, (WIDTH, HEIGHT))
-
-        # Afficher Fire attack
-        for fire in fires:
-            fire.draw(win, delta)
-            if fire.get_position()[1] < -10:
-                model.sup_fire()
-            print(fire.get_position())
-
-        if model.pressed.get(pygame.K_SPACE):
-            if diference_time_actuel_passer > delay_cree_fire:
-                model.creer_fire()
-                delay_cree_fire = diference_time_actuel_passer + 0.5
-
-        # pygame.draw.rect(win, "#ffffff", (player.get_position(), player.get_size())) mettre une couleur blanche sur le player
+            if self.delta_2 > self.enemie_par_second:
+                model.creer_enemei()
+                self.enemie_par_second = self.delta_2 + 1.5
 
 
-        # fficher les enemie lvl-01
-        for enemie in model.all_enemie:
-            enemie.draw(win, (WIDTH, HEIGHT))
-            enemie.movement(delta, (WIDTH, HEIGHT))
-        # get delta time
-        player.get_delta(delta)
-        pygame.display.update()
-        clock.tick(FPS) #60 FPS
-    pygame.quit()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.jeu_active = False
+
+                # Touche Keyboard
+                if event.type == pygame.KEYDOWN:
+                    model.pressed[event.key] = True
+
+                if event.type == pygame.KEYUP:
+                    model.pressed[event.key] = False
+
+            # Movement player
+            player.move_left(model.pressed.get(pygame.K_LEFT), self.delta)
+            player.move_right(model.pressed.get(pygame.K_RIGHT), self.delta)
+            player.move_up(model.pressed.get(pygame.K_UP), self.delta)
+            player.move_down(model.pressed.get(pygame.K_DOWN), self.delta)
+
+            # Dessiner le window
+            self.win.blit(self.bg, (0, 0))
+
+            # Afficher le joueur
+            player.draw(self.win, (self.width, self.height))
+            player.draw_health_bar(self.win)
+
+            # Afficher Fire attack
+            global fire
+            for fire in fires:
+                fire.lancer_attack(self.delta)
+                if model.pressed.get(pygame.K_SPACE): # si en tire le fire pas un autre attaque
+                    player.get_damage_arm(fire)
+            model.all_fire.draw(self.win)
+
+
+            # Aficher les enemie lvl-01
+            for enemie in model.all_enemie:
+                enemie.draw_health_bar(self.win)
+                enemie.movement(self.delta, (self.width, self.height))
+                #fire.attack_target(enemie)
+            model.all_enemie.draw(self.win)
+
+            if model.pressed.get(pygame.K_SPACE):
+                if self.delta_2 > self.fire_par_second:
+                    model.creer_fire()
+                    self.fire_par_second = self.delta_2 + 0.3
+
+            # pygame.draw.rect(win, "#ffffff", (player.get_position(), player.get_size())) mettre une couleur blanche sur le player
+
+
+            # get delta time
+            player.get_delta(self.delta)
+            pygame.display.update()
+            self.clock.tick(self.FPS)  # 60 FPS
+        pygame.quit()
+
+
 if __name__ == '__main__':
-    main()
-
-
-
-
-
-
-
-
-
-
+    game = Window()
+    game.draw()
 

@@ -1,11 +1,25 @@
 from person import Person
+import pygame
+
 
 class Player(Person):
     def __init__(self, name, age, health, damage, velocity, position, image, size_img):
         super().__init__(name, age, health, damage, velocity, position, image, size_img)
+        self.__kill = 0
+    # bar Health
+    def draw_health_bar(self, surface):
+        bg_color = (111, 210, 46)
+        back_color = (000, 000, 000)
+        position = [10, 30, self.get_health()*2, 15]
+        back_position = [10, 30, self.get_max_health()*2, 15]
+        pygame.draw.rect(surface, back_color, back_position)
+        pygame.draw.rect(surface, bg_color, position)
 
+    def get_number_of_kill(self):
+        return self.__kill
 
-
+    def add_number_of_kill(self):
+        self.__kill += 1
 
 
 
