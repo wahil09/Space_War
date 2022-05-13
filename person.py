@@ -1,6 +1,8 @@
 import time
 
 import pygame
+from reportlab.lib.colors import white
+
 from fire import Fire
 
 class Person(pygame.sprite.Sprite):
@@ -20,6 +22,7 @@ class Person(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x, self.rect.y = position
         self.delta = 1
+        self.is_alive = True
 
         self.premier_position = 0
 
@@ -62,6 +65,8 @@ class Person(pygame.sprite.Sprite):
     def get_damage_arm(self, arm):
         self.__damage = arm.get_damage()
 
+    def get_delta(self, delta):
+        return delta
 
     # ***** -- Setters Functions -- ***** #
 
@@ -118,12 +123,11 @@ class Person(pygame.sprite.Sprite):
             self.rect.y = tail_win[1]-self.image.get_width()
             self.premier_position += 1
 
-    def draw(self, win, tail_win):
-        self.calcul_pos_player(tail_win)
+    def draw(self, win):
+        self.calcul_pos_player((win.get_width(), win.get_height()))
+        print(self.is_alive)
         return win.blit(self.image, (self.rect.x, self.rect.y))
 
-    def get_delta(self, delta):
-        return delta
 
 
     # transfor l'image
@@ -132,17 +136,20 @@ class Person(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, new_size)
         return self.image
 
-
     # bar Health
-    def draw_health_bar(self, surface):
+    def draw_health_bar(self, surface): # optimiser ce code "utiliser les parameters pour la position de player et enemie et .. clolor .."
         bg_color = (111, 210, 46)
-        back_color = (000, 000, 000)
-        position = [self.rect.x+4, self.rect.y-12, self.__health, 5]
-        back_position = [self.rect.x + 4, self.rect.y -12, self.__max_health, 5]
+        back_color = (111, 111, 111)
+        position = [self.rect.x, self.rect.y-12, self.__health, 5]
+        back_position = [self.rect.x, self.rect.y -12, self.__max_health, 5]
         pygame.draw.rect(surface, back_color, back_position)
         pygame.draw.rect(surface, bg_color, position)
 
     def delay(self):
         pass
+
+    def test_self_alive(self):
+        if self.get_health() <= 0:
+            self.is_alive = False
 
 

@@ -21,8 +21,8 @@ class Window:
         self.time_passe = time.time()
         self.time_passe_2 = time.time()
         self.delta_2 = 0
-        self.enemie_par_second = 1.5 # seconde
-        self.fire_par_second = 0.3 # seconde
+        self.enemie_par_second = 2 # seconde
+        self.fire_par_second = 0.25 # seconde
 
         self.jeu_active = True
 
@@ -41,7 +41,7 @@ class Window:
 
             if self.delta_2 > self.enemie_par_second:
                 model.creer_enemei()
-                self.enemie_par_second = self.delta_2 + 1.5
+                self.enemie_par_second = self.delta_2 + 2
 
 
             for event in pygame.event.get():
@@ -65,8 +65,10 @@ class Window:
             self.win.blit(self.bg, (0, 0))
 
             # Afficher le joueur
-            player.draw(self.win, (self.width, self.height))
+            player.draw(self.win)
             player.draw_health_bar(self.win)
+            player.draw_number_of_kill_enemie(self.win)
+            print(player.get_health())
 
             # Afficher Fire attack
             global fire
@@ -81,13 +83,13 @@ class Window:
             for enemie in model.all_enemie:
                 enemie.draw_health_bar(self.win)
                 enemie.movement(self.delta, (self.width, self.height))
-                #fire.attack_target(enemie)
+                #fire.attack_target(enemie)nn
             model.all_enemie.draw(self.win)
 
             if model.pressed.get(pygame.K_SPACE):
                 if self.delta_2 > self.fire_par_second:
                     model.creer_fire()
-                    self.fire_par_second = self.delta_2 + 0.3
+                    self.fire_par_second = self.delta_2 + 0.25
 
             # pygame.draw.rect(win, "#ffffff", (player.get_position(), player.get_size())) mettre une couleur blanche sur le player
 

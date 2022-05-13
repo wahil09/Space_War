@@ -8,8 +8,8 @@ class Fire(pygame.sprite.Sprite):
         self.__damage = 10
         self.constructor = constructor
         self.name = 'fire'
-        self.velocity = 450
-        self.image = self.transform('public/images/Player/Flame_01.png', (25, 50))
+        self.velocity = 700
+        self.image = self.transform('public/images/Player/Flame_01.png', (20, 45))
         self.animation = 'animation'
         self.rect = self.image.get_rect()
         self.player = player
