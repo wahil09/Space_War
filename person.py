@@ -9,7 +9,7 @@ class Person(pygame.sprite.Sprite):
     gravity = -9.8
     number_of_person = 0
 
-    def __init__(self, name, age, health, damage, velocity, position, image, size_img):
+    def __init__(self, name, age, health, damage, velocity, position, image, size_img, constructor):
         super().__init__()
         self.__name = name
         self.__age = age
@@ -23,6 +23,7 @@ class Person(pygame.sprite.Sprite):
         self.rect.x, self.rect.y = position
         self.delta = 1
         self.is_alive = True
+        self.constructor = constructor
 
         self.premier_position = 0
 
@@ -125,7 +126,9 @@ class Person(pygame.sprite.Sprite):
 
     def draw(self, win):
         self.calcul_pos_player((win.get_width(), win.get_height()))
-        print(self.is_alive)
+        self.test_self_alive()
+        if self.constructor.check_collision(self, self.constructor.all_enemie):
+            self.get_attack(self.constructor.all_enemie.sprites()[0])
         return win.blit(self.image, (self.rect.x, self.rect.y))
 
 

@@ -3,8 +3,8 @@ import pygame
 
 
 class Player(Person):
-    def __init__(self, name, age, health, damage, velocity, position, image, size_img):
-        super().__init__(name, age, health, damage, velocity, position, image, size_img)
+    def __init__(self, name, age, health, damage, velocity, position, image, size_img, constructor):
+        super().__init__(name, age, health, damage, velocity, position, image, size_img, constructor)
         self.__kill = 0
 
     # bar Health

@@ -3,7 +3,7 @@ from person import Person
 
 class Enemei(Person):
     def __init__(self, name, age, health, damage, velocity, position, image, size_img, constructor):
-        super().__init__(name, age, health, damage, velocity, position, image, size_img)
+        super().__init__(name, age, health, damage, velocity, position, image, size_img, constructor)
         self.constructor = constructor
         self.position_start = -50
 
@@ -17,12 +17,12 @@ class Enemei(Person):
         if self.rect.x < 0:
             self.set_velocity(abs((self.get_velocity())))
 
-        if self.constructor.check_collision(self, self.constructor.all_fire):
-            self.get_attack(self.constructor.player)
+        #if self.constructor.check_collision(self, self.constructor.all_fire):
+            #self.get_attack(self.constructor.player)
 
         if self.rect.y > size_win[1]+self.image.get_height():
-            self.constructor.player.get_attack(self)
             self.remove()
+            self.constructor.player.get_attack(self)
 
 
         if self.get_health() <= 0:

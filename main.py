@@ -30,7 +30,6 @@ class Window:
     def draw(self):
 
         while self.jeu_active:
-            print(player.get_number_of_kill())
             # Calcul delta time
             time_actuel = time.time()
             self.delta = time_actuel - self.time_passe
@@ -68,23 +67,20 @@ class Window:
             player.draw(self.win)
             player.draw_health_bar(self.win)
             player.draw_number_of_kill_enemie(self.win)
-            print(player.get_health())
 
             # Afficher Fire attack
-            global fire
+            model.all_fire.draw(self.win)
             for fire in fires:
                 fire.lancer_attack(self.delta)
                 if model.pressed.get(pygame.K_SPACE): # si en tire le fire pas un autre attaque
                     player.get_damage_arm(fire)
-            model.all_fire.draw(self.win)
 
 
             # Aficher les enemie lvl-01
+            model.all_enemie.draw(self.win)
             for enemie in model.all_enemie:
                 enemie.draw_health_bar(self.win)
                 enemie.movement(self.delta, (self.width, self.height))
-                #fire.attack_target(enemie)nn
-            model.all_enemie.draw(self.win)
 
             if model.pressed.get(pygame.K_SPACE):
                 if self.delta_2 > self.fire_par_second:

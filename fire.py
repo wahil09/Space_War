@@ -25,14 +25,17 @@ class Fire(pygame.sprite.Sprite):
         return self.image.get_size()
 
     def attack_target(self, target):
-        target.get_attack(self.constructor.player.get_damage())
+        target.get_attack(self.constructor.player)
         self.remove()
 
     def lancer_attack(self, delta):
         self.rect.y -= self.velocity*delta
         if self.rect.y < 0:
             self.remove()
-        # self.constructor.check_collision(self, self.constructor.all_enemie):
+        for enemie in self.constructor.check_collision(self, self.constructor.all_enemie):
+            print(self.constructor.check_collision(self, self.constructor.all_enemie))
+            self.remove()
+            enemie.get_attack(self)
 
 
     def remove(self):
