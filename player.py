@@ -13,18 +13,12 @@ class Player(Person):
             self.get_attack(enemie)
             enemie.remove()
     def draw(self, win, jeu):
-        print(self.get_health())
         self.calcul_pos_player((win.get_width(), win.get_height()))
         self.test_self_alive() # tester si la vie de joueur est plus de 0 sinon met 'is_alive' a False
 
         self.enemie_touch_player()
         if not self.is_alive:
             jeu.jeu_active = self.is_alive
-
-        # si l'attaque le l"enemie touche le joueur = -health, attack supprimer
-        for attack_enemie in self.constructor.check_collision(self, self.constructor.all_enemie_fire):
-            attack_enemie.remove()
-            self.get_attack(attack_enemie)
 
         return win.blit(self.image, (self.rect.x, self.rect.y))
 

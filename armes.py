@@ -37,6 +37,11 @@ class Arms(pygame.sprite.Sprite):
         if self.rect.y > 1050: #height de window
             self.remove()
 
+        # si l'attaque le l"enemie touche le joueur = -health, attack supprimer
+        if pygame.sprite.collide_mask(self, self.constructor.player):
+            self.remove()
+            self.constructor.player.get_attack(self)
+
     def remove(self):
         self.constructor.all_enemie_fire.remove(self)
 
