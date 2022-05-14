@@ -33,7 +33,7 @@ class Window:
             self.enemie_par_vag += 10
             self.vag += 1
             if self.enemie_par_second > 1:
-                self.enemie_par_second -= 0.5
+                self.enemie_par_second -= random.choice([0.2, 0.4])
 
         if self.vag == 5:
             # model.appeler_bos()
@@ -46,7 +46,6 @@ class Window:
 
 
     def draw(self):
-
         while self.jeu_active:
             # Dessiner le window
             self.win.blit(self.bg, (0, 0))
@@ -81,9 +80,9 @@ class Window:
 
             # Movement player
             player.move_left(model.pressed.get(pygame.K_LEFT), self.delta)
-            player.move_right(model.pressed.get(pygame.K_RIGHT), self.delta)
+            player.move_right(model.pressed.get(pygame.K_RIGHT), self.delta, self.win)
             player.move_up(model.pressed.get(pygame.K_UP), self.delta)
-            player.move_down(model.pressed.get(pygame.K_DOWN), self.delta)
+            player.move_down(model.pressed.get(pygame.K_DOWN), self.delta, self.win)
 
 
             # Afficher le joueur

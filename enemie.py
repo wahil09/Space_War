@@ -1,5 +1,5 @@
 from person import Person
-import time
+import time, random
 
 class Enemei(Person):
     def __init__(self, name, age, health, damage, velocity, position, image, size_img, constructor):
@@ -8,7 +8,7 @@ class Enemei(Person):
         self.position_start = -50
         self.time_passe_3 = time.time()
         self.delta_3 = 0
-        self.enemie_fire_par_second = 1 # Male nommer le variable
+        self.enemie_fire_par_second = random.randint(1, 3) # Male nommer le variable
         self.time_entre_chaque_enemie_tire = 1  # seconde
 
     def movement(self, delta, size_win, time_actuel):

@@ -93,20 +93,19 @@ class Person(pygame.sprite.Sprite):
     # ***** -- Movement -- ***** #
 
     def move_left(self, btn_clicked, delta):
-        if btn_clicked:
-
+        if btn_clicked and self.rect.x > 0:
             self.rect.x -= self.__velocity * delta
 
-    def move_right(self, btn_clicked, delta):
-        if btn_clicked:
+    def move_right(self, btn_clicked, delta, win):
+        if btn_clicked and self.rect.x < win.get_width()-self.get_size()[0]:
             self.rect.x += self.__velocity * delta
 
     def move_up(self, btn_clicked, delta):
-        if btn_clicked:
+        if btn_clicked and self.rect.y > 200:
             self.rect.y -= self.__velocity * delta
 
-    def move_down(self, btn_clicked, delta):
-        if btn_clicked:
+    def move_down(self, btn_clicked, delta, win):
+        if btn_clicked and self.rect.y < win.get_height()-self.get_size()[1]:
             self.rect.y += self.__velocity * delta
 
 
