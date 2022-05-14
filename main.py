@@ -21,9 +21,9 @@ class Window:
         self.time_passe = time.time()
         self.time_passe_2 = time.time()
         self.delta_2 = 0
-        self.enemie_par_second = 2
-        self.time_entre_chaque_enemie = 2 # seconde
-        self.fire_par_second = 0.2 # seconde
+        self.enemie_par_second = 3 # Male nommer le variable
+        self.time_entre_chaque_enemie = 0 # seconde # Male nommer le variable
+        self.fire_par_second = 0.2 # seconde # Male nommer le variable
         self.jeu_active = True
 
         self.vag = 1
@@ -103,7 +103,14 @@ class Window:
             model.all_enemie.draw(self.win)
             for enemie in model.all_enemie:
                 enemie.draw_health_bar(self.win)
-                enemie.movement(self.delta, (self.width, self.height))
+                enemie.movement(self.delta, (self.width, self.height), time_actuel)
+
+
+
+            # Afficher l'attaque le l'enemie
+            model.all_enemie_fire.draw(self.win)
+            for enemie_fire in model.all_enemie_fire:
+                enemie_fire.lancer_attack(self.delta)
 
             if model.pressed.get(pygame.K_SPACE):
                 if self.delta_2 > self.fire_par_second:

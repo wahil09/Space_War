@@ -33,7 +33,6 @@ class Fire(pygame.sprite.Sprite):
         if self.rect.y < -30:
             self.remove()
         for enemie in self.constructor.check_collision(self, self.constructor.all_enemie):
-            print(self.constructor.check_collision(self, self.constructor.all_enemie))
             self.remove()
             enemie.get_attack(self)
 
@@ -55,12 +54,3 @@ class Fire(pygame.sprite.Sprite):
 
     def get_damage(self):
         return self.__damage
-
-    def delay(self):
-        time_actuel = time.time()
-        self.delta = time_actuel - self.time_passe
-        print('yes')
-
-        if self.delta > self.time_pour_sup:
-            self.remove()
-            self.time_pour_sup = self.delta + 0.1

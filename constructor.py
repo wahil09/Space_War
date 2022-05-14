@@ -2,6 +2,7 @@ import pygame
 from player import Player
 from enemie import Enemei
 from fire import Fire
+from enemie_fire import Enemie_fire
 import random
 class Constructor(pygame.sprite.Sprite):
     def __init__(self):
@@ -10,6 +11,7 @@ class Constructor(pygame.sprite.Sprite):
         self.all_enemie = pygame.sprite.Group()
         self.all_fire = pygame.sprite.Group()
         self.all_player = pygame.sprite.Group()
+        self.all_enemie_fire = pygame.sprite.Group()
         self.pressed = {}
 
         #self.creer_player() # creer player
@@ -17,6 +19,10 @@ class Constructor(pygame.sprite.Sprite):
     def creer_fire(self):
         self.fire = Fire(self.player, self)
         self.all_fire.add(self.fire)
+
+    def creer_enemie_fire(self, person_position):
+        self.enemie_fire = Enemie_fire('bomb_fire', 5, 'public/images/enemie/1B.png', '', 300, person_position, self)
+        self.all_enemie_fire.add(self.enemie_fire)
 
     def creer_enemei(self):
         self.enemie = Enemei('lvl1', 15, 100, 20, random.choice([80, -80]), (random.choice([100, 900]), -50), 'public/images/enemie/1B.png', (100, 60), self)

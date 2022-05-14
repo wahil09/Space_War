@@ -1,13 +1,25 @@
 from person import Person
-
+import time
 
 class Enemei(Person):
     def __init__(self, name, age, health, damage, velocity, position, image, size_img, constructor):
         super().__init__(name, age, health, damage, velocity, position, image, size_img, constructor)
         self.constructor = constructor
         self.position_start = -50
+        self.time_passe_3 = time.time()
+        self.delta_3 = 0
+        self.enemie_fire_par_second = 1 # Male nommer le variable
+        self.time_entre_chaque_enemie_tire = 1  # seconde
 
-    def movement(self, delta, size_win):
+    def movement(self, delta, size_win, time_actuel):
+
+        # time pour chaque tire de l'enemie
+        self.delta_3 = time_actuel - self.time_passe_3
+
+        if self.delta_3 > self.time_entre_chaque_enemie_tire:
+            self.attack()
+            self.time_entre_chaque_enemie_tire = self.delta_3 + self.enemie_fire_par_second
+
         self.rect.y += abs(self.get_velocity() * delta)
         self.rect.x += (self.get_velocity()*2) * delta
 
@@ -31,6 +43,9 @@ class Enemei(Person):
 
     def remove(self):
         self.constructor.all_enemie.remove(self)
+
+    def attack(self):
+        self.constructor.creer_enemie_fire(self)
 
 
 
