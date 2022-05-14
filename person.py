@@ -124,15 +124,6 @@ class Person(pygame.sprite.Sprite):
             self.rect.y = tail_win[1]-self.image.get_width()
             self.premier_position += 1
 
-    def draw(self, win, jeu):
-        self.calcul_pos_player((win.get_width(), win.get_height()))
-        self.test_self_alive() # tester si la vie de joueur est plus de 0 sinon met 'is_alive' a False
-        if not self.is_alive:
-            jeu.jeu_active = self.is_alive
-
-        return win.blit(self.image, (self.rect.x, self.rect.y))
-
-
 
     # transfor l'image
     def transform(self, image, new_size):

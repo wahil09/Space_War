@@ -23,7 +23,7 @@ class Window:
         self.delta_2 = 0
         self.enemie_par_second = 2
         self.time_entre_chaque_enemie = 2 # seconde
-        self.fire_par_second = 0.25 # seconde
+        self.fire_par_second = 0.2 # seconde
         self.jeu_active = True
 
         self.vag = 1
@@ -108,7 +108,7 @@ class Window:
             if model.pressed.get(pygame.K_SPACE):
                 if self.delta_2 > self.fire_par_second:
                     model.creer_fire()
-                    self.fire_par_second = self.delta_2 + 0.25
+                    self.fire_par_second = self.delta_2 + 0.2
 
             # pygame.draw.rect(win, "#ffffff", (player.get_position(), player.get_size())) mettre une couleur blanche sur le player
 

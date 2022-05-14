@@ -8,7 +8,7 @@ class Fire(pygame.sprite.Sprite):
         self.__damage = 25
         self.constructor = constructor
         self.name = 'fire'
-        self.velocity = 700
+        self.velocity = 1000
         self.image = self.transform('public/images/Player/Flame_01.png', (20, 45))
         self.animation = 'animation'
         self.rect = self.image.get_rect()
@@ -30,7 +30,7 @@ class Fire(pygame.sprite.Sprite):
 
     def lancer_attack(self, delta):
         self.rect.y -= self.velocity*delta
-        if self.rect.y < 0:
+        if self.rect.y < -30:
             self.remove()
         for enemie in self.constructor.check_collision(self, self.constructor.all_enemie):
             print(self.constructor.check_collision(self, self.constructor.all_enemie))
