@@ -22,7 +22,6 @@ class Player(Person):
     def add_number_of_kill(self):
         self.__kill += 1
 
-
     def draw_number_of_kill_enemie(self, win):
         font = pygame.font.Font('public/font/Macondo-Regular.ttf', 35)
         kill_txt = pygame.font.Font.render(font, f"Kill: {self.get_number_of_kill()}", True, 'white')

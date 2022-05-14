@@ -5,7 +5,7 @@ class Fire(pygame.sprite.Sprite):
     number_of_fire = 0
     def __init__(self, player, constructor):
         super().__init__()
-        self.__damage = 10
+        self.__damage = 25
         self.constructor = constructor
         self.name = 'fire'
         self.velocity = 700
@@ -14,7 +14,7 @@ class Fire(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.player = player
         self.rect.x, self.rect.y = self.player.get_position()[0]-self.get_size()[0]/2+self.player.get_size()[0]/2, self.player.get_position()[1]-self.get_size()[1]
-        self.remier_position = 0
+        self.premier_position = 0
         self.delta = 0
         self.time_passe = time.time()
         self.time_pour_sup = 0.1

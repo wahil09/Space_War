@@ -21,15 +21,40 @@ class Window:
         self.time_passe = time.time()
         self.time_passe_2 = time.time()
         self.delta_2 = 0
-        self.enemie_par_second = 2 # seconde
+        self.enemie_par_second = 2
+        self.time_entre_chaque_enemie = 2 # seconde
         self.fire_par_second = 0.25 # seconde
-
         self.jeu_active = True
+
+        self.vag = 1
+        self.enemie_par_vag = 10
+    def prochain_vag(self, number_of_kill):
+        if number_of_kill >= self.enemie_par_vag:
+            self.enemie_par_vag += 10
+            self.vag += 1
+            if self.enemie_par_second > 1:
+                self.enemie_par_second -= 0.5
+
+        if self.vag == 5:
+            # model.appeler_bos()
+            pass
+
+    def draw_number_of_vag(self):
+        font = pygame.font.Font('public/font/Macondo-Regular.ttf', 25)
+        vag_txt = pygame.font.Font.render(font, f"Vag: {self.vag}", False, 'white')
+        self.win.blit(vag_txt, (self.win.get_width()/2-vag_txt.get_width()/2, 20))
 
 
     def draw(self):
 
         while self.jeu_active:
+            # Dessiner le window
+            self.win.blit(self.bg, (0, 0))
+
+            # Systeme de niveau
+            self.prochain_vag(player.get_number_of_kill())
+            self.draw_number_of_vag()
+
             # Calcul delta time
             time_actuel = time.time()
             self.delta = time_actuel - self.time_passe
@@ -38,9 +63,9 @@ class Window:
             # time pour creer un enemie
             self.delta_2 = time_actuel - self.time_passe_2
 
-            if self.delta_2 > self.enemie_par_second:
+            if self.delta_2 > self.time_entre_chaque_enemie:
                 model.creer_enemei()
-                self.enemie_par_second = self.delta_2 + 2
+                self.time_entre_chaque_enemie = self.delta_2 + self.enemie_par_second
 
 
             for event in pygame.event.get():
@@ -60,11 +85,9 @@ class Window:
             player.move_up(model.pressed.get(pygame.K_UP), self.delta)
             player.move_down(model.pressed.get(pygame.K_DOWN), self.delta)
 
-            # Dessiner le window
-            self.win.blit(self.bg, (0, 0))
 
             # Afficher le joueur
-            player.draw(self.win)
+            player.draw(self.win, self)
             player.draw_health_bar(self.win)
             player.draw_number_of_kill_enemie(self.win)
 
