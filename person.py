@@ -24,7 +24,6 @@ class Person(pygame.sprite.Sprite):
         self.delta = 1
         self.is_alive = True
         self.constructor = constructor
-
         self.premier_position = 0
 
         self.time_passe = time.time()

@@ -3,6 +3,7 @@ from player import Player
 from enemie import Enemei
 from fire import Fire
 from enemie_fire import Enemie_fire
+from button import Button
 import random
 class Constructor(pygame.sprite.Sprite):
     def __init__(self):
@@ -13,6 +14,7 @@ class Constructor(pygame.sprite.Sprite):
         self.all_player = pygame.sprite.Group()
         self.all_enemie_fire = pygame.sprite.Group()
         self.pressed = {}
+        self.all_button = pygame.sprite.Group()
 
         #self.creer_player() # creer player
 
@@ -34,6 +36,11 @@ class Constructor(pygame.sprite.Sprite):
 
     def check_collision(self, qui_touche, group_target):
         return pygame.sprite.spritecollide(qui_touche, group_target, False, pygame.sprite.collide_mask)
+
+    def creer_btn(self, surface):
+        self.start_button = Button('Play', surface, "white", (surface.get_width()/2, surface.get_height()/2), (200, 70), 'public/images/Gui/Main_Menu/Start_BTN.png') # Start Button
+        self.quit_button = Button('Exit', surface, "white", (surface.get_width()/2, surface.get_height()/1.6), (200, 70), 'public/images/Gui/Main_Menu/Exit_BTN.png') # Quit Button
+        self.all_button.add(self.start_button, self.quit_button)
 
 
 

@@ -19,6 +19,9 @@ class Fire(pygame.sprite.Sprite):
         self.time_passe = time.time()
         self.time_pour_sup = 0.1
         Fire.number_of_fire += 1
+        self.son = pygame.mixer.Sound("public/sound/son/synth_laser_05.ogg")
+        pygame.mixer.Sound.play(self.son)
+
 
 
     def get_size(self):
